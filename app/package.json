@@ -3,7 +3,8 @@
 	"name": "smell-check",
 	"version": "1.0.0",
 	"homepageReal": "https://nilsbaumgartner1994.github.io/smell-check/",
-	"homepage": "./",
+	"homepageTesting": "./",
+	"homepage": "https://nilsbaumgartner1994.github.io/smell-check/",
 	"config": {
 		"codepush_ios": "FireboltCasters/RocketMealsDemo-iOS",
 		"codepush_android": "FireboltCasters/RocketMealsDemo-Android"

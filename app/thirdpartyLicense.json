@@ -7397,7 +7397,7 @@
     "path": "/Users/nbaumgartner/Documents/GitHub/smell-check/app/node_modules/kind-of",
     "licenseFile": "/Users/nbaumgartner/Documents/GitHub/smell-check/app/node_modules/kind-of/LICENSE"
   },
-  "kitcheningredients@11.0.30": {
+  "kitcheningredients@11.0.32": {
     "licenses": "MIT",
     "repository": "https://github.com/FireboltCasters/kitcheningredients",
     "publisher": "Nils Baumgartner",
