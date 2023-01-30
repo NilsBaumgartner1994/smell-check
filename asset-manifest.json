@@ -1,11 +1,11 @@
 {
   "files": {
-    "app.js": "/smell-check/static/js/app.22951aec.chunk.js",
-    "app.js.map": "/smell-check/static/js/app.22951aec.chunk.js.map",
+    "app.js": "/smell-check/static/js/app.28be7532.chunk.js",
+    "app.js.map": "/smell-check/static/js/app.28be7532.chunk.js.map",
     "runtime~app.js": "/smell-check/static/js/runtime~app.8121b8af.js",
     "runtime~app.js.map": "/smell-check/static/js/runtime~app.8121b8af.js.map",
-    "static/js/2.19641a9e.chunk.js": "/smell-check/static/js/2.19641a9e.chunk.js",
-    "static/js/2.19641a9e.chunk.js.map": "/smell-check/static/js/2.19641a9e.chunk.js.map",
+    "static/js/2.0c94f7b5.chunk.js": "/smell-check/static/js/2.0c94f7b5.chunk.js",
+    "static/js/2.0c94f7b5.chunk.js.map": "/smell-check/static/js/2.0c94f7b5.chunk.js.map",
     "fonts/AntDesign.ttf": "/smell-check/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/smell-check/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/smell-check/./fonts/Feather.ttf",
@@ -26,7 +26,7 @@
   },
   "entrypoints": [
     "static/js/runtime~app.8121b8af.js",
-    "static/js/2.19641a9e.chunk.js",
-    "static/js/app.22951aec.chunk.js"
+    "static/js/2.0c94f7b5.chunk.js",
+    "static/js/app.28be7532.chunk.js"
   ]
 }
