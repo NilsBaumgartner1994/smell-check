@@ -3,7 +3,7 @@ import React from "react";
 import {
 	BaseTemplate, MenuItem, EmptyTemplate,
 	Navigation,
-	PluginInterface, ThemedMarkdown,
+	PluginInterface, ThemedMarkdown, DirectusImage,
 } from "kitcheningredients";
 
 import {SynchedStateKeys} from "./helper/SynchedStateKeys";
@@ -12,7 +12,7 @@ import {MySync} from "./MySync";
 import {MyLoading} from "./MyLoading";
 import {MyRoot} from "./MyRoot";
 import {MyHome} from "./screens/home/MyHome";
-import {Image} from "native-base";
+import {Image, View} from "native-base";
 
 export default class Project extends PluginInterface{
 
@@ -128,15 +128,17 @@ Diese App ist kostenlos und darf ohne Einschränkungen genutzt werden. Es gibt k
 		//return null // we have overwritten it
 	}
 
-	getCustomProjectLogoComponent(props): any {
+	renderCustomProjectLogo(props): JSX.Element {
 		let height = props?.height;
 		let width = props?.width;
 		let borderRadius = props?.borderRadius;
-		return <Image src={{uri: "https://raw.githubusercontent.com/NilsBaumgartner1994/smell-check/master/app/assets/icon.png"}} style={{height: height, width: width, borderRadius: borderRadius}} />
-	}
-
-	renderCustomProjectLogo(): any {
-
+		const url = "https://raw.githubusercontent.com/NilsBaumgartner1994/smell-check/master/app/assets/icon.png";
+		return 	<View style={{width: width, height: height, borderRadius: borderRadius}}>
+			<DirectusImage alt={""}
+						   isPublic={true}
+						   url={url}
+						   style={{height: width, width: height}} />
+		</View>
 	}
 
 }
