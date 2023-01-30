@@ -1,0 +1,32 @@
+{
+  "files": {
+    "app.js": "/smell-check/static/js/app.22951aec.chunk.js",
+    "app.js.map": "/smell-check/static/js/app.22951aec.chunk.js.map",
+    "runtime~app.js": "/smell-check/static/js/runtime~app.8121b8af.js",
+    "runtime~app.js.map": "/smell-check/static/js/runtime~app.8121b8af.js.map",
+    "static/js/2.19641a9e.chunk.js": "/smell-check/static/js/2.19641a9e.chunk.js",
+    "static/js/2.19641a9e.chunk.js.map": "/smell-check/static/js/2.19641a9e.chunk.js.map",
+    "fonts/AntDesign.ttf": "/smell-check/./fonts/AntDesign.ttf",
+    "fonts/Entypo.ttf": "/smell-check/./fonts/Entypo.ttf",
+    "fonts/Feather.ttf": "/smell-check/./fonts/Feather.ttf",
+    "fonts/FontAwesome.ttf": "/smell-check/./fonts/FontAwesome.ttf",
+    "fonts/FontAwesome5_Brands.ttf": "/smell-check/./fonts/FontAwesome5_Brands.ttf",
+    "fonts/FontAwesome5_Solid.ttf": "/smell-check/./fonts/FontAwesome5_Solid.ttf",
+    "fonts/Fontisto.ttf": "/smell-check/./fonts/Fontisto.ttf",
+    "fonts/Foundation.ttf": "/smell-check/./fonts/Foundation.ttf",
+    "fonts/Ionicons.ttf": "/smell-check/./fonts/Ionicons.ttf",
+    "fonts/MaterialCommunityIcons.ttf": "/smell-check/./fonts/MaterialCommunityIcons.ttf",
+    "fonts/MaterialIcons.ttf": "/smell-check/./fonts/MaterialIcons.ttf",
+    "fonts/SimpleLineIcons.ttf": "/smell-check/./fonts/SimpleLineIcons.ttf",
+    "favicon-16.png": "/smell-check/favicon-16.png",
+    "favicon-32.png": "/smell-check/favicon-32.png",
+    "favicon.ico": "/smell-check/favicon.ico",
+    "index.html": "/smell-check/index.html",
+    "serve.json": "/smell-check/serve.json"
+  },
+  "entrypoints": [
+    "static/js/runtime~app.8121b8af.js",
+    "static/js/2.19641a9e.chunk.js",
+    "static/js/app.22951aec.chunk.js"
+  ]
+}
