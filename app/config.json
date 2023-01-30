@@ -1,0 +1,20 @@
+{
+  "title": "SMELL-Check",
+  "codepush": {
+    "active": false,
+    "deploymentType": "staging",
+    "keys": {
+      "ios": {
+        "staging": "Plw6M0t6IkCBp29Wg6MgWaXXp2hrSG4H1AnEE",
+        "production": "7YS1t2jKPztIQOHNpZQBgc9z87vGFFP3dnnc_"
+      },
+      "android": {
+        "staging": "mcIPZG1SHVhey5GIFE9fAI-AHwGY6a1Ydao3K",
+        "production": "w_SCyWBJwcAsYF1KmWj-LoIE50QhdJHiPheck"
+      }
+    }
+  },
+  "logs": {
+    "hideDefaultWarnings": true
+  }
+}

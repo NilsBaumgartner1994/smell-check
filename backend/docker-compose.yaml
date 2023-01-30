@@ -1,0 +1,123 @@
+version: '3'
+services:
+
+  app:
+    image: jwilder/whoami
+    env_file: .env
+    restart: ${RESTART}
+    environment:
+      - LETSENCRYPT_HOST=${MYHOST}
+      - VIRTUAL_HOST=${MYHOST}
+      - VIRTUAL_PATH=/${DOMAIN_PATH}/whoami
+    networks:
+      - topDomainProxy
+
+  directus:
+    container_name: directus${DOMAIN_PATH}
+    image: directus/directus:9.20.4
+    #image: directus/directus:9.18.1
+    #image: directus/directus:latest
+    env_file: .env
+    command: >
+      sh -c "
+        ${BACKEND_PRE_START_COMMAND}
+        ls && npm install global-agent && npm install directus-cut && npm install directus-extension-auto-backup && npm install directus-extension-auto-translation && npm install moment && npm install deepl-node && echo 'Bootstrap' && npx directus bootstrap && echo 'Node' && node -r 'global-agent/bootstrap' node_modules/directus/dist/start.js
+      "
+    expose:
+      - ${BACKEND_PORT}
+    restart: ${RESTART}
+    volumes:
+      # By default, uploads are stored in /directus/uploads
+      # Always make sure your volumes matches the storage root when using
+      # local driver
+      - ./Backend/uploads:/directus/uploads
+      # Make sure to also mount the volume when using SQLite
+      - ./Backend/database:/directus/database
+      # If you want to load extensions from the host
+      - ./Backend/extensions:/directus/extensions
+    networks:
+      - directus
+      - topDomainProxy
+    environment:
+      LETSENCRYPT_HOST: ${MYHOST}
+      VIRTUAL_HOST: ${MYHOST}
+      VIRTUAL_PATH: /${DOMAIN_PATH}/${BACKEND_PATH}/
+      VIRTUAL_DEST: /
+      VIRTUAL_PORT: ${BACKEND_PORT}
+
+      HOST: "0.0.0.0"
+      PUBLIC_URL: ${DOMAIN_PRE}://${MYHOST}/${DOMAIN_PATH}/${BACKEND_PATH}
+
+      KEY: '255d861b-5ea1-5996-9aa3-922530ec40b1'
+      SECRET: '6116487b-cda1-52c2-b5b5-c8022c45e263'
+
+      DB_CLIENT: 'sqlite3' # https://docs.directus.io/configuration/config-options/
+      DB_FILENAME: './database/data.db'
+      #DB_HOST: 'database' #Required when using pg, mysql, oracledb, or mssql
+      #DB_PORT: '5432'
+      #DB_DATABASE: 'directus'
+      #DB_USER: 'directus'
+      #DB_PASSWORD: 'directus'
+
+      CACHE_ENABLED: 'false'
+
+      ADMIN_EMAIL: 'admin@example.com'
+      ADMIN_PASSWORD: 'd1r3ctu5'
+
+      EMAIL_FROM: "no-reply@nilsbaumgartner.de"
+      EMAIL_TRANSPORT: "smtp"
+      EMAIL_SMTP_HOST: "smtp.strato.de"
+      EMAIL_SMTP_PORT: "587"
+      EMAIL_SMTP_USER: "no-reply@nilsbaumgartner.de"
+      EMAIL_SMTP_PASSWORD: "${MAIL_PASSWORD}"
+#      EMAIL_SMTP_POOL: ""
+#      EMAIL_SMTP_SECURE: "true"
+#      EMAIL_SMTP_IGNORE_TLS: "true"
+
+      CORS_ENABLED: "true"
+      CORS_ORIGIN: "true"
+      REFRESH_TOKEN_COOKIE_SAME_SITE: "lax"
+      #CORS_ALLOWED_HEADERS: 'Access-Control-Allow-Origin,Authorization,Accept,Accept-Encoding,Accept-Language,Access-Control-Request-Headers,Access-Control-Request-Method,Cache-Control,Connection,Content-Type,Host,Origin,Pragma,Referer,Sec-Fetch-Mode,User-Agent'
+      #CORS_EXPOSED_HEADERS: 'Access-Control-Allow-Origin,Authorization,Accept,Accept-Encoding,Accept-Language,Access-Control-Request-Headers,Access-Control-Request-Method, Cache-Control,Connection,Content-Type,Host,Origin,Pragma,Referer,Sec-Fetch-Mode,User-Agent'
+
+      AUTH_PROVIDERS: "studip,studiptest"
+
+      AUTH_STUDIP_DRIVER: "oauth2"
+      AUTH_STUDIP_CLIENT_ID: "${MYHOST}$$redirect=${DOMAIN_PRE}://${MYHOST}/${DOMAIN_PATH}/${BACKEND_PATH}/auth/login/studip/callback"
+      #No Client secret needed
+      AUTH_STUDIP_CLIENT_SECRET: "JustForDirectus"
+      AUTH_STUDIP_AUTHORIZE_URL: "${AUTH_STUDIP_URL}/oauth"
+      AUTH_STUDIP_ACCESS_URL: "${AUTH_STUDIP_URL}/oauth/token"
+      AUTH_STUDIP_PROFILE_URL: "${AUTH_STUDIP_URL}/profile"
+      AUTH_STUDIP_SCOPE: "email name user_id username perms avatar_normal"
+      AUTH_STUDIP_ICON: "school"
+      AUTH_STUDIP_LABEL: "Stud.IP"
+      AUTH_STUDIP_IDENTIFIER_KEY: "username"
+      AUTH_STUDIP_ALLOW_PUBLIC_REGISTRATION: "true"
+      AUTH_STUDIP_DEFAULT_ROLE_ID: "${AUTH_STUDIP_DEFAULT_ROLE_ID}"
+
+      AUTH_STUDIPTEST_DRIVER: "oauth2"
+      AUTH_STUDIPTEST_CLIENT_ID: "${MYHOST}$$redirect=${DOMAIN_PRE}://${MYHOST}/${DOMAIN_PATH}/${BACKEND_PATH}/auth/login/studiptest/callback"
+      #No Client secret needed
+      AUTH_STUDIPTEST_CLIENT_SECRET: "JustForDirectus"
+      AUTH_STUDIPTEST_AUTHORIZE_URL: "${AUTH_STUDIPTEST_URL}/oauth"
+      AUTH_STUDIPTEST_ACCESS_URL: "${AUTH_STUDIPTEST_URL}/oauth/token"
+      AUTH_STUDIPTEST_PROFILE_URL: "${AUTH_STUDIPTEST_URL}/profile"
+      AUTH_STUDIPTEST_SCOPE: "email name user_id username perms avatar_normal"
+      AUTH_STUDIPTEST_ICON: "bug_report"
+      AUTH_STUDIPTEST_LABEL: "Stud.IP Test"
+      AUTH_STUDIPTEST_IDENTIFIER_KEY: "username"
+      AUTH_STUDIPTEST_ALLOW_PUBLIC_REGISTRATION: "true"
+      AUTH_STUDIPTEST_DEFAULT_ROLE_ID: "${AUTH_STUDIP_DEFAULT_ROLE_ID}"
+
+      NODE_TLS_REJECT_UNAUTHORIZED: 0 # The HTTPS cert is not complete: "unable to verify the first certificate"
+
+      ACCESS_TOKEN_TTL: "15m"
+      REFRESH_TOKEN_TTL: "180d"
+
+      MAX_PAYLOAD_SIZE: "80mb"
+
+networks:
+  directus:
+  topDomainProxy:
+    external: true
