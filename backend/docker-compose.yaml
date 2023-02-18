@@ -15,13 +15,21 @@ services:
   directus:
     container_name: directus${DOMAIN_PATH}
     image: directus/directus:9.20.4
-    #image: directus/directus:9.18.1
-    #image: directus/directus:latest
     env_file: .env
+    user: root
     command: >
       sh -c "
         ${BACKEND_PRE_START_COMMAND}
-        ls && npm install global-agent && npm install directus-cut && npm install directus-extension-auto-backup && npm install directus-extension-auto-translation && npm install moment && npm install deepl-node && echo 'Bootstrap' && npx directus bootstrap && echo 'Node' && node -r 'global-agent/bootstrap' node_modules/directus/dist/start.js
+        ls && npm install global-agent &&
+        apk add --no-cache git &&
+        npm install directus-cut &&
+        npm install moment &&
+        npm install directus-extension-auto-backup &&
+        npm install directus-extension-auto-translation &&
+        echo 'Bootstrap' &&
+        npx directus bootstrap &&
+        echo 'Node' &&
+        node -r 'global-agent/bootstrap' node_modules/directus/dist/start.js
       "
     expose:
       - ${BACKEND_PORT}
@@ -32,6 +40,7 @@ services:
       # local driver
       - ./Backend/uploads:/directus/uploads
       # Make sure to also mount the volume when using SQLite
+      - ./Repo_temp:/directus/CustomFiles/Repo_temp:rw
       - ./Backend/database:/directus/database
       # If you want to load extensions from the host
       - ./Backend/extensions:/directus/extensions
@@ -64,12 +73,12 @@ services:
       ADMIN_EMAIL: 'admin@example.com'
       ADMIN_PASSWORD: 'd1r3ctu5'
 
-      EMAIL_FROM: "no-reply@nilsbaumgartner.de"
-      EMAIL_TRANSPORT: "smtp"
-      EMAIL_SMTP_HOST: "smtp.strato.de"
-      EMAIL_SMTP_PORT: "587"
-      EMAIL_SMTP_USER: "no-reply@nilsbaumgartner.de"
-      EMAIL_SMTP_PASSWORD: "${MAIL_PASSWORD}"
+#      EMAIL_FROM: "no-reply@nilsbaumgartner.de"
+#      EMAIL_TRANSPORT: "smtp"
+#      EMAIL_SMTP_HOST: "smtp.strato.de"
+#      EMAIL_SMTP_PORT: "587"
+#      EMAIL_SMTP_USER: "no-reply@nilsbaumgartner.de"
+#      EMAIL_SMTP_PASSWORD: "${MAIL_PASSWORD}"
 #      EMAIL_SMTP_POOL: ""
 #      EMAIL_SMTP_SECURE: "true"
 #      EMAIL_SMTP_IGNORE_TLS: "true"
@@ -80,35 +89,7 @@ services:
       #CORS_ALLOWED_HEADERS: 'Access-Control-Allow-Origin,Authorization,Accept,Accept-Encoding,Accept-Language,Access-Control-Request-Headers,Access-Control-Request-Method,Cache-Control,Connection,Content-Type,Host,Origin,Pragma,Referer,Sec-Fetch-Mode,User-Agent'
       #CORS_EXPOSED_HEADERS: 'Access-Control-Allow-Origin,Authorization,Accept,Accept-Encoding,Accept-Language,Access-Control-Request-Headers,Access-Control-Request-Method, Cache-Control,Connection,Content-Type,Host,Origin,Pragma,Referer,Sec-Fetch-Mode,User-Agent'
 
-      AUTH_PROVIDERS: "studip,studiptest"
-
-      AUTH_STUDIP_DRIVER: "oauth2"
-      AUTH_STUDIP_CLIENT_ID: "${MYHOST}$$redirect=${DOMAIN_PRE}://${MYHOST}/${DOMAIN_PATH}/${BACKEND_PATH}/auth/login/studip/callback"
-      #No Client secret needed
-      AUTH_STUDIP_CLIENT_SECRET: "JustForDirectus"
-      AUTH_STUDIP_AUTHORIZE_URL: "${AUTH_STUDIP_URL}/oauth"
-      AUTH_STUDIP_ACCESS_URL: "${AUTH_STUDIP_URL}/oauth/token"
-      AUTH_STUDIP_PROFILE_URL: "${AUTH_STUDIP_URL}/profile"
-      AUTH_STUDIP_SCOPE: "email name user_id username perms avatar_normal"
-      AUTH_STUDIP_ICON: "school"
-      AUTH_STUDIP_LABEL: "Stud.IP"
-      AUTH_STUDIP_IDENTIFIER_KEY: "username"
-      AUTH_STUDIP_ALLOW_PUBLIC_REGISTRATION: "true"
-      AUTH_STUDIP_DEFAULT_ROLE_ID: "${AUTH_STUDIP_DEFAULT_ROLE_ID}"
-
-      AUTH_STUDIPTEST_DRIVER: "oauth2"
-      AUTH_STUDIPTEST_CLIENT_ID: "${MYHOST}$$redirect=${DOMAIN_PRE}://${MYHOST}/${DOMAIN_PATH}/${BACKEND_PATH}/auth/login/studiptest/callback"
-      #No Client secret needed
-      AUTH_STUDIPTEST_CLIENT_SECRET: "JustForDirectus"
-      AUTH_STUDIPTEST_AUTHORIZE_URL: "${AUTH_STUDIPTEST_URL}/oauth"
-      AUTH_STUDIPTEST_ACCESS_URL: "${AUTH_STUDIPTEST_URL}/oauth/token"
-      AUTH_STUDIPTEST_PROFILE_URL: "${AUTH_STUDIPTEST_URL}/profile"
-      AUTH_STUDIPTEST_SCOPE: "email name user_id username perms avatar_normal"
-      AUTH_STUDIPTEST_ICON: "bug_report"
-      AUTH_STUDIPTEST_LABEL: "Stud.IP Test"
-      AUTH_STUDIPTEST_IDENTIFIER_KEY: "username"
-      AUTH_STUDIPTEST_ALLOW_PUBLIC_REGISTRATION: "true"
-      AUTH_STUDIPTEST_DEFAULT_ROLE_ID: "${AUTH_STUDIP_DEFAULT_ROLE_ID}"
+      #AUTH_PROVIDERS: "studip,studiptest"
 
       NODE_TLS_REJECT_UNAUTHORIZED: 0 # The HTTPS cert is not complete: "unable to verify the first certificate"
 

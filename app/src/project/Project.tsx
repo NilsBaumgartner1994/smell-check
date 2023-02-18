@@ -42,7 +42,7 @@ export default class Project extends PluginInterface{
 		  key: "home",
 		  label: "Start",
 		  command: () => {
-		  	Navigation.navigateTo(Navigation.DEFAULT_ROUTE_HOME, {key: Math.random()});
+		  	Navigation.navigateTo(Navigation.DEFAULT_ROUTE_HOME);
 		  }
 	  });
 
