@@ -66,3 +66,11 @@ lib/
 ./coverage
 
 app/ios/Pods/
+
+backend/sonarcube/sonarqube_data/
+
+backend/sonarcube/sonarqube_db/
+
+backend/sonarcube/sonarqube_logs/
+
+backend/Repo_temp/9/

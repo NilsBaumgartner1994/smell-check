@@ -1,6 +1,41 @@
 version: '3'
 services:
 
+  sonarqube:
+    image: sonarqube
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./sonarcube/sonarqube_config/sonar-project.properties:/opt/sonarqube/conf/sonar-project.properties
+      - ./sonarcube/sonarqube_data:/opt/sonarqube/data:rw
+      - ./sonarcube/sonarqube_logs:/opt/sonarqube/logs:rw
+      - ./sonarcube/sonarqube_extensions:/opt/sonarqube/extensions:rw
+      - ./Repo_temp:/opt/sonarqube/Repo_temp:rw
+    environment:
+      - SONARQUBE_JDBC_USERNAME=admin
+      - SONARQUBE_JDBC_PASSWORD=admin
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://db:5432/sonar
+      - LETSENCRYPT_HOST=${MYHOST}
+      - VIRTUAL_HOST=${MYHOST}
+      - VIRTUAL_PATH=/${DOMAIN_PATH}/sonar
+      - VIRTUAL_PORT=9000
+      - SONAR_WEB_CONTEXT=/${DOMAIN_PATH}/sonar
+    networks:
+      - sonarnet
+      - topDomainProxy
+
+  sonarcube_db:
+    image: postgres
+    container_name: sonarcube_db
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    volumes:
+      - ./sonarcube/sonarqube_db:/var/lib/postgresql/data
+    networks:
+      - sonarnet
+
   app:
     image: jwilder/whoami
     env_file: .env
@@ -21,6 +56,7 @@ services:
       sh -c "
         ${BACKEND_PRE_START_COMMAND}
         ls && npm install global-agent &&
+        chmod -R +x /directus/sonar-scanner &&
         apk add --no-cache git &&
         npm install directus-cut &&
         npm install moment &&
@@ -44,6 +80,8 @@ services:
       - ./Backend/database:/directus/database
       # If you want to load extensions from the host
       - ./Backend/extensions:/directus/extensions
+      # SonarScanner
+      - ./sonar-scanner:/directus/sonar-scanner:rw
     networks:
       - directus
       - topDomainProxy
@@ -99,6 +137,7 @@ services:
       MAX_PAYLOAD_SIZE: "80mb"
 
 networks:
+  sonarnet:
   directus:
   topDomainProxy:
     external: true
