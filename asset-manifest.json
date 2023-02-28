@@ -1,7 +1,7 @@
 {
   "files": {
-    "app.js": "/smell-check/static/js/app.28be7532.chunk.js",
-    "app.js.map": "/smell-check/static/js/app.28be7532.chunk.js.map",
+    "app.js": "/smell-check/static/js/app.c81210f9.chunk.js",
+    "app.js.map": "/smell-check/static/js/app.c81210f9.chunk.js.map",
     "runtime~app.js": "/smell-check/static/js/runtime~app.8121b8af.js",
     "runtime~app.js.map": "/smell-check/static/js/runtime~app.8121b8af.js.map",
     "static/js/2.0c94f7b5.chunk.js": "/smell-check/static/js/2.0c94f7b5.chunk.js",
@@ -27,6 +27,6 @@
   "entrypoints": [
     "static/js/runtime~app.8121b8af.js",
     "static/js/2.0c94f7b5.chunk.js",
-    "static/js/app.28be7532.chunk.js"
+    "static/js/app.c81210f9.chunk.js"
   ]
 }
